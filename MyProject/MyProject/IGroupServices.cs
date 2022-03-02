@@ -9,10 +9,10 @@ namespace MyProject
         public List<Group> Groups {get;}
 
         public string CreateGroup(TypeGroup typeGroup);
-        public void EditGroup(string group, string newgroup);
+        public void EditGroup();
         public void AllGroups();
-        public void CreateStudent();
-        public void GroupStudents();
+        public void CreateStudent(string no);
+        public void GroupStudents(string no);
         public void AllStudents();
 
     }

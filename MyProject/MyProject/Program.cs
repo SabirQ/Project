@@ -6,8 +6,15 @@ namespace MyProject
     {
         static void Main(string[] args)
         {
-            Group group = new Group(TypeGroup.Dizayn); 
-            Console.WriteLine(group.GroupNo); 
+            
+            
+            Operations operations = new Operations();
+            operations.CreateGroup(TypeGroup.Dizayn);
+            operations.CreateStudent("D-100");
+            operations.GroupStudents("D-100");
+            //operations.EditGroup();
+            operations.AllGroups();
+            
         }
     }
 }

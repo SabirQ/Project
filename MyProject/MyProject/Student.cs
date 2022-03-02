@@ -7,11 +7,10 @@ namespace MyProject
     class Student
     {
         public string FullName;
-        public Group StudentGroup;
+        public string StudentGroupNo;
         public bool isOnline;
-        public Student(Group group)
-        {
-            
-        }
+        
+        
     }
+    
 }

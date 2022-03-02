@@ -9,14 +9,14 @@ namespace MyProject
         public string GroupNo;
         public static int Count = 100;
         public TypeGroup Type;
-        public Student[] students = new Student[20];
+        public List<Student> students = new List<Student>();
         public Group(TypeGroup type)
         {
-            int tip;
-            string tipstr = Console.ReadLine();
-            bool result = int.TryParse(tipstr, out tip);
-            if (result)
-            {
+            //int tip;
+            //string tipstr = Console.ReadLine();
+            //bool result = int.TryParse(tipstr, out tip);
+            
+            
                 switch (type)
                 {
                     case TypeGroup.Marketing:
@@ -34,9 +34,15 @@ namespace MyProject
                     default:
                         break;
                 }
-            } 
+             
             Count++;
             Type = type;
+            
         }
+        public override string ToString()
+        {
+            return $"Grup Nomresi:{GroupNo} Novu:{Type} Shagirdlerin sayi:{students.Count}";
+        }
+
     }
 }
