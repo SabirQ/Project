@@ -9,16 +9,11 @@ namespace MyProject
 
 
             Operations operations = new Operations();
-            //operations.CreateGroup(TypeGroup.Dizayn);
-            //operations.CreateStudent("D-100");
-            //operations.GroupStudents("D-100");
-            //operations.EditGroup();
-            //operations.AllGroups();
             Console.WriteLine("Console Application\n");
             int selection;
             do
             {
-                Console.WriteLine($"1. Yeni qrup yarat\n2. Qrupların siyahısını göster\n3. Qrup üzerinde düzeliş etmek\n4. Qrupdakı telebelerin siyahısını göster\n5. Bütün telebelerin siyahısını göster\n6. Telebe yarat");
+                Console.WriteLine($"1. Yeni qrup yarat\n2. Qruplarin siyahisini goster\n3. Qrup uzerinde duzelish etmek\n4. Qrupdaki telebelerin siyahisini goster\n5. Butun telebelerin siyahisini goster\n6. Telebe yarat");
                 Console.WriteLine("\n\n0. Cixish");
                 string strSelection = Console.ReadLine();
                 bool result = int.TryParse(strSelection, out selection);
@@ -26,23 +21,24 @@ namespace MyProject
                 {
                     switch (selection)
                     {  case 1:
-                            operations.CreateGroup(Helper.ChooseType());                            
+                            operations.CreateGroup();                  //Optimal          
                             break;
                         case 2:
-                            operations.AllGroups();
+                            operations.AllGroups();                    //Optimal
                             break;
                         case 3:
                             operations.EditGroup();
                             break;
                         case 4:
+                            Console.WriteLine("Telebe siyahisini, ekrana cixartmaq istediyiniz Grupun Nomresini qeyd edin:");
                             operations.GroupStudents(Console.ReadLine());
                             break;
                         case 5:
                             operations.AllStudents();
                             break;
                         case 6:
-                            Console.WriteLine("Hansi grup ucun nezerde tutuldugunu qeyd edin ");
-                            operations.CreateStudent(Console.ReadLine());
+                            
+                            operations.CreateStudent();
                             break;
                         default:
                             break;

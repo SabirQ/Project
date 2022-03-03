@@ -24,49 +24,29 @@ namespace MyProject
 
         public void AllStudents()                                 //hazir
         {
+            
             foreach (Group group in _groups)
             {
-                GroupStudents(group.GroupNo);
+                CheckStudents(group.GroupNo);
+                
             }
-        }
-
-        public void CreateGroup(TypeGroup typeGroup)           //hazir
-        {
-            Group group = new Group(typeGroup);
-            if (group.Type!=TypeGroup.Dizayn&&group.Type != TypeGroup.Programlashdirma&&group.Type != TypeGroup.Sistem)
-            {                
-                return ;
-            }
-            else
+            if (CheckNumbersOfStudents()<= 0)
             {
-                group.isOnline = Helper.IsOnlineOrNot();
-                if (group.isOnline == null)
-                {
-                    Console.WriteLine("bele bir grup movcud deyil Esas menuya kecid edildi");
-                    return;
-                }
-                else
-                {
-                    if (group.isOnline)
-                    {
-                        group.Limit = 15;
-                        _groups.Add(group);
-                        Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");
-                    }
-                    else
-                    {
-                        group.Limit = 10;
-                        _groups.Add(group);
-                        Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");
-                    }
-                    
-                }
+                Console.WriteLine("Hal-hazirda Academiyada telebe yoxdur");
             }
-            
         }
 
-        public void CreateStudent(string no)
+        public void CreateGroup()                                //hazir
         {
+            Group group = new Group(Helper.ChooseType(), Helper.IsOnlineOrNot());           
+            _groups.Add(group);
+            Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");            
+        }
+
+        public void CreateStudent()                             //hazir
+        {
+            Console.WriteLine("Yeni telebenin hansi grup ucun nezerde tutuldugunu qeyd edin ");
+            string no = Console.ReadLine();
             if (no.Length==0||no==null)
             {
                 do
@@ -91,23 +71,14 @@ namespace MyProject
                     group = FindGroup(no);
                 } while (group.students.Count >= group.Limit); 
             }
-            Student student = new Student();
-            student.FullName = DetermineFullname();
-            student.guarrantee = Helper.Guarranteed();
+            Student student = new Student(DetermineFullname(),group.GroupNo, Helper.Guarranteed());
+            Console.WriteLine(student+"\nTelebe yaradildi");
             group.students.Add(student);
-            student.StudentGroupNo = group.GroupNo;
-
-
-
-
-
-
-
         }
 
         public void EditGroup()                             //hazir
         {
-            Console.WriteLine("Deyishmek istediyiniz grupun adini qeyd edin");
+            Console.WriteLine("Deyishmek istediyiniz grupun nomresini qeyd edin");
             string no = Console.ReadLine();
             Group group = FindGroup(no);
                         
@@ -122,8 +93,9 @@ namespace MyProject
                 } while (group==null);
                 
             }
-            Console.WriteLine("Yeni grup nomresini daxil edin");
-            string newno= Console.ReadLine();
+            Console.WriteLine("Grup Nomresinin bash herifi novune uygun teyin edilmishdir\nYeni grup nomresinin 3 reqemli ededini daxil edin");
+            string newno = CheckNewGroupName(group);
+ 
             foreach (Group item in _groups)
             {
                 if (item.GroupNo.ToLower().Trim() == newno.ToLower().Trim())
@@ -131,12 +103,12 @@ namespace MyProject
                     newno = null;
                 }
             }
-            if (newno==null)
+            if (newno == null)
             {
                 do
                 {
                     Console.WriteLine("Bu nomreli grup artiq movcuddur bashqa nomre daxil edin");
-                    newno = Console.ReadLine();
+                    newno = CheckNewGroupName(group);
                     foreach (Group item in _groups)
                     {
                         if (item.GroupNo.ToLower().Trim() == newno.ToLower().Trim())
@@ -144,29 +116,33 @@ namespace MyProject
                             newno = null;
                         }
                     }
-                } while (newno==null);
+                } while (newno == null);
             }
             group.GroupNo =Capitalized(newno);
             Console.WriteLine(group.GroupNo);
         }
 
         public void GroupStudents(string no)                    //hazir
-        {                                  
+        {                                 
             Group group = FindGroup(no);
             if (group == null)
             {
-                do
-                {
-                    Console.WriteLine("Bu nomreli bir grup movcud deyil yeniden cehd edin");
-                    no = Console.ReadLine();
-                    group = FindGroup(no);
-
-                } while (group == null);
+                Console.WriteLine("Qeyd elediyiniz Grup Nomresi movcud deyil");
+                return;               
             }
-            foreach (Student student in group.students)
+            
+            if (group.students.Count>0)
             {
-                Console.WriteLine(student.FullName);
+                 foreach (Student student in group.students)
+                 {
+                        Console.WriteLine(student);
+                 }                       
             }
+            else
+            {
+               Console.WriteLine(group.GroupNo+"-adli Grupda telebe movcud deyil");
+            }
+            
         }
        
     }
@@ -181,24 +157,13 @@ namespace MyProject
                     return group;
 
                 }
-                //else
-                //{
-                //    group = null;
-                //    do
-                //    {
-                //        group = null;
-                //        Console.WriteLine("Duzgun deyer secin");
-                //        no = Console.ReadLine();
-                //    } while (group==null);
-                    
-                //}
-                
+
             }            
             return null;
         }
         public string DetermineFullname()
         {
-            Console.WriteLine("ad elave et");
+            Console.WriteLine("Telebenin adini qeyd edin");
             string name = Console.ReadLine();
             name = NameLength(name);
 
@@ -206,7 +171,7 @@ namespace MyProject
             {
                 do
                 {
-                    Console.WriteLine("herflerden ibaret olmalidir");
+                    Console.WriteLine("Telebe adi herflerden ibaret olmalidir");
                     name = Console.ReadLine();
                     name = NameLength(name);
 
@@ -214,14 +179,14 @@ namespace MyProject
                 } while (!CheckLetters(name));
             }
            
-            Console.WriteLine("soyad elave et");
+            Console.WriteLine("Telebenin soyadini qeyd edin");
             string surname = Console.ReadLine();
             surname = NameLength(surname);
             if (!CheckLetters(surname))
             {
                 do
                 {
-                    Console.WriteLine("herflerden ibaret olmalidir");
+                    Console.WriteLine("Telebenin soyadi herflerden ibaret olmalidir");
                     surname = Console.ReadLine();
                     surname = NameLength(surname);
 
@@ -254,7 +219,7 @@ namespace MyProject
             {
                 do
                 {
-                    Console.WriteLine("uzunluq 3 olmalidir");
+                    Console.WriteLine("Adlarin ve soyadalarin uzunlugu en azi 3 herfden ibaret olmalidir");
                     name = Console.ReadLine();
                     name = name.Trim();
                 } while (name.Length < 3);
@@ -276,59 +241,68 @@ namespace MyProject
             }
             return result;
         }
-        //public TypeGroup ChooseType()
-        //{
-        //    Console.WriteLine("Grup novunu secin:\n1. Programlashdirma\n2. Dizayn\n3. Sistem ");
-        //    int num;
-        //    string numStr = Console.ReadLine();
-        //    bool result = int.TryParse(numStr, out num);
-        //    TypeGroup type = new TypeGroup();
-           
-        //    if (true)
-        //    {
-        //        switch (num)
-        //        {
-        //            case 1:
-        //                type = TypeGroup.Programlashdirma;
-        //                break;
-        //            case 2:
-        //                type = TypeGroup.Dizayn;
-        //                break;
-        //            case 3:
-        //                type = TypeGroup.Sistem;
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //        return type;
-        //    }
-        //    else
-        //    {
-        //        do
-        //        {
-        //            Console.WriteLine("Duzgun deyer teyin olunamyib yeniden cehd edin edin");
-        //            Console.WriteLine("Grup novunu secin:\n1. Programlashdirma\n2. Dizayn\n3. Sistem ");
-        //            numStr = Console.ReadLine();
-        //             result = int.TryParse(numStr, out num);
-        //        } while (!result);
-        //        switch (num)
-        //        {
-        //            case 1:
-        //                type = TypeGroup.Programlashdirma;
-        //                break;
-        //            case 2:
-        //                type = TypeGroup.Dizayn;
-        //                break;
-        //            case 3:
-        //                type = TypeGroup.Sistem;
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //        return type;
+       
+        public int CheckDigits()
+        {
+            int num;
+            string numStr = Console.ReadLine();
+            bool result = int.TryParse(numStr, out num);
+            if (!result||numStr.Length!=3)
+            {
+                do
+                {
+                    Console.WriteLine("Grup Nomresinin bash herfi novune uygun teyin edilmishdir.\n3 reqemli eded daxil edin");
+                    numStr = Console.ReadLine();
+                    result = int.TryParse(numStr, out num);
+                } while (!result || numStr.Length != 3);
+                
+            }
+            return num;
+        }
+        public string CheckNewGroupName(Group group)
+        {
+            string newno = "";
+            switch (group.Type)
+            {
 
-        //    }
-        //}
-        
+                case TypeGroup.Programlashdirma:
+                    newno = $"P{CheckDigits()}";
+                    break;
+                case TypeGroup.Dizayn:
+                    newno = $"D{CheckDigits()}";
+                    break;
+                case TypeGroup.Sistem:
+                    newno = $"S{CheckDigits()}";
+                    break;
+                default:
+                    break;
+            }
+            return newno;
+        }
+        public void CheckStudents(string no)                    //hazir
+        {
+            Group group = FindGroup(no);
+            if (group == null)
+            {
+                Console.WriteLine("Bele bir Grup Nomresi movcud deyil");
+                return;
+            }
+            foreach (Student student in group.students)
+            {
+                
+                    Console.WriteLine(student);
+               
+            }
+        }
+        public int CheckNumbersOfStudents()
+        {
+            int number = 0;
+            foreach (Group group in _groups)
+            {
+                number += group.students.Count;
+            }
+            return number;
+        }
+
     }
 }

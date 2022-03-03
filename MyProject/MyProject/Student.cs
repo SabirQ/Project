@@ -8,13 +8,19 @@ namespace MyProject
     {
         public string FullName;
         public string StudentGroupNo;
-        public bool guarrantee;
+        public bool Guarrantee;
+        public Student(string fullname,string groupno,bool guarrantee)
+        {
+            FullName = fullname;
+            StudentGroupNo = groupno;
+            Guarrantee = guarrantee;
+        }
 
 
         public string GuarranteeValue()
         {
             string result = "";
-            if (guarrantee)
+            if (Guarrantee)
             {
                 result = "beli";
             }

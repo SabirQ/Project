@@ -12,32 +12,35 @@ namespace MyProject
         public List<Student> students = new List<Student>();
         public bool isOnline;
         public int Limit;
-        public Group(TypeGroup type)
-        {
-            //int tip;
-            //string tipstr = Console.ReadLine();
-            //bool result = int.TryParse(tipstr, out tip);
-
-            
+        public Group(TypeGroup type,bool online/*,Operations operations*/)
+        {                      
             switch (type)
-                {
+            {
 
-                    case TypeGroup.Programlashdirma:
+                case TypeGroup.Programlashdirma:
                         GroupNo = $"P{Count}";
                         break;
-                    case TypeGroup.Dizayn:
+                case TypeGroup.Dizayn:
                         GroupNo = $"D{Count}";
                         break;
-                    case TypeGroup.Sistem:
+                case TypeGroup.Sistem:
                         GroupNo = $"S{Count}";
                         break;
-                    default:
+                default:
                         break;
-                }
+            }
+           
+            isOnline = online;
             Type = type;
             Count++;
-            
-            
+            if (isOnline)
+            {
+                Limit = 15;
+            }
+            else
+            {
+                Limit = 10;
+            }           
         }
         public override string ToString()
         {
