@@ -6,8 +6,8 @@ namespace MyProject
 {
     enum TypeGroup
     {
-        Marketing = 1,
-        Programlashdirma,
+        
+        Programlashdirma=1,
         Dizayn,
         Sistem
     }

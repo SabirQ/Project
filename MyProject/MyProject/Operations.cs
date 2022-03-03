@@ -30,26 +30,78 @@ namespace MyProject
             }
         }
 
-        public string CreateGroup(TypeGroup typeGroup)           //hazir
+        public void CreateGroup(TypeGroup typeGroup)           //hazir
         {
             Group group = new Group(typeGroup);
-            _groups.Add(group);
-            return group.GroupNo+$"adli grup yaradildi";
+            if (group.Type!=TypeGroup.Dizayn&&group.Type != TypeGroup.Programlashdirma&&group.Type != TypeGroup.Sistem)
+            {                
+                return ;
+            }
+            else
+            {
+                group.isOnline = Helper.IsOnlineOrNot();
+                if (group.isOnline == null)
+                {
+                    Console.WriteLine("bele bir grup movcud deyil Esas menuya kecid edildi");
+                    return;
+                }
+                else
+                {
+                    if (group.isOnline)
+                    {
+                        group.Limit = 15;
+                        _groups.Add(group);
+                        Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");
+                    }
+                    else
+                    {
+                        group.Limit = 10;
+                        _groups.Add(group);
+                        Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");
+                    }
+                    
+                }
+            }
+            
         }
 
         public void CreateStudent(string no)
         {
+            if (no.Length==0||no==null)
+            {
+                do
+                {
+                    Console.WriteLine("Duzgun deyer teyin edin");
+                    no = Console.ReadLine();
+                } while (no.Length==0 || no == null);
+            }
+            Group group = FindGroup(no);
+            if (group == null)
+            {
+                Console.WriteLine("bele bir grup movcud deyil Esas menuya kecid edildi");
+                return;
+            }
+            
+            if (group.students.Count>=group.Limit)
+            {
+                do
+                {
+                    Console.WriteLine("Bu grupda bosh yer yoxdur zehmet olmasa Bashqa grup secin");
+                    no = Console.ReadLine();
+                    group = FindGroup(no);
+                } while (group.students.Count >= group.Limit); 
+            }
             Student student = new Student();
             student.FullName = DetermineFullname();
-            Group group = FindGroup(no);
-            
-            if (group==null)
-            {
-                Console.WriteLine("duzgun grup");
-            }
+            student.guarrantee = Helper.Guarranteed();
             group.students.Add(student);
             student.StudentGroupNo = group.GroupNo;
-            student.isOnline = true;
+
+
+
+
+
+
 
         }
 
@@ -99,8 +151,7 @@ namespace MyProject
         }
 
         public void GroupStudents(string no)                    //hazir
-        {
-            Console.WriteLine("Telebe siyahisini gormek istediyiniz grupun nomresini daxil edin");
+        {                                  
             Group group = FindGroup(no);
             if (group == null)
             {
@@ -130,6 +181,17 @@ namespace MyProject
                     return group;
 
                 }
+                //else
+                //{
+                //    group = null;
+                //    do
+                //    {
+                //        group = null;
+                //        Console.WriteLine("Duzgun deyer secin");
+                //        no = Console.ReadLine();
+                //    } while (group==null);
+                    
+                //}
                 
             }            
             return null;
@@ -214,5 +276,59 @@ namespace MyProject
             }
             return result;
         }
+        //public TypeGroup ChooseType()
+        //{
+        //    Console.WriteLine("Grup novunu secin:\n1. Programlashdirma\n2. Dizayn\n3. Sistem ");
+        //    int num;
+        //    string numStr = Console.ReadLine();
+        //    bool result = int.TryParse(numStr, out num);
+        //    TypeGroup type = new TypeGroup();
+           
+        //    if (true)
+        //    {
+        //        switch (num)
+        //        {
+        //            case 1:
+        //                type = TypeGroup.Programlashdirma;
+        //                break;
+        //            case 2:
+        //                type = TypeGroup.Dizayn;
+        //                break;
+        //            case 3:
+        //                type = TypeGroup.Sistem;
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //        return type;
+        //    }
+        //    else
+        //    {
+        //        do
+        //        {
+        //            Console.WriteLine("Duzgun deyer teyin olunamyib yeniden cehd edin edin");
+        //            Console.WriteLine("Grup novunu secin:\n1. Programlashdirma\n2. Dizayn\n3. Sistem ");
+        //            numStr = Console.ReadLine();
+        //             result = int.TryParse(numStr, out num);
+        //        } while (!result);
+        //        switch (num)
+        //        {
+        //            case 1:
+        //                type = TypeGroup.Programlashdirma;
+        //                break;
+        //            case 2:
+        //                type = TypeGroup.Dizayn;
+        //                break;
+        //            case 3:
+        //                type = TypeGroup.Sistem;
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //        return type;
+
+        //    }
+        //}
+        
     }
 }

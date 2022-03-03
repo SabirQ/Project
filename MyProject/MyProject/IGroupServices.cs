@@ -8,7 +8,7 @@ namespace MyProject
     {
         public List<Group> Groups {get;}
 
-        public string CreateGroup(TypeGroup typeGroup);
+        public void CreateGroup(TypeGroup typeGroup);
         public void EditGroup();
         public void AllGroups();
         public void CreateStudent(string no);
