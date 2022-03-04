@@ -8,19 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {}
+    "C:\\Users\\sabirmg\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\Project\\MyProject\\MyProject\\MyProject.csproj",
+      "projectUniqueName": "C:\\Users\\sabirmg\\Desktop\\New folder\\Project\\MyProject\\MyProject\\MyProject.csproj",
       "projectName": "MyProject",
-      "projectPath": "C:\\Users\\User\\Desktop\\Project\\MyProject\\MyProject\\MyProject.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\Project\\MyProject\\MyProject\\obj\\",
+      "projectPath": "C:\\Users\\sabirmg\\Desktop\\New folder\\Project\\MyProject\\MyProject\\MyProject.csproj",
+      "packagesPath": "C:\\Users\\sabirmg\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sabirmg\\Desktop\\New folder\\Project\\MyProject\\MyProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\sabirmg\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
       }
     }
   }

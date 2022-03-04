@@ -119,6 +119,10 @@ namespace MyProject
                 } while (newno == null);
             }
             group.GroupNo =Capitalized(newno);
+            foreach (Student student in group.students)
+            {
+                student.StudentGroupNo = group.GroupNo;
+            }
             Console.WriteLine(group.GroupNo);
         }
 
