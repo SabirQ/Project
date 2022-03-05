@@ -21,10 +21,10 @@ namespace MyProject
                 {
                     switch (selection)
                     {  case 1:
-                            operations.CreateGroup();                  //Optimal          
+                            operations.CreateGroup();                       
                             break;
                         case 2:
-                            operations.AllGroups();                    //Optimal
+                            operations.AllGroups();                    
                             break;
                         case 3:
                             operations.EditGroup();

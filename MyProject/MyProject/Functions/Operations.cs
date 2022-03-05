@@ -9,7 +9,7 @@ namespace MyProject
         private List<Group> _groups = new List<Group>();
         public List<Group> Groups => _groups;
 
-        public void AllGroups()                                     //hazir
+        public void AllGroups()                                   //hazir
         {
             if (_groups.Count==0)
             {
@@ -38,7 +38,8 @@ namespace MyProject
 
         public void CreateGroup()                                //hazir
         {
-            Group group = new Group(Helper.ChooseType(), Helper.IsOnlineOrNot());           
+            Group group = new Group(Helper.ChooseType(), Helper.IsOnlineOrNot());
+            CheckCreatedGroupNO(group);
             _groups.Add(group);
             Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");            
         }
@@ -62,18 +63,18 @@ namespace MyProject
                 return;
             }
             
-            if (group.students.Count>=group.Limit)
+            if (group.Students.Count>=group.Limit)
             {
                 do
                 {
                     Console.WriteLine("Bu grupda bosh yer yoxdur zehmet olmasa Bashqa grup secin");
                     no = Console.ReadLine();
                     group = FindGroup(no);
-                } while (group.students.Count >= group.Limit); 
+                } while (group.Students.Count >= group.Limit); 
             }
             Student student = new Student(DetermineFullname(),group.GroupNo, Helper.Guarranteed());
             Console.WriteLine(student+"\nTelebe yaradildi");
-            group.students.Add(student);
+            group.Students.Add(student);
         }
 
         public void EditGroup()                             //hazir
@@ -119,7 +120,7 @@ namespace MyProject
                 } while (newno == null);
             }
             group.GroupNo =Capitalized(newno);
-            foreach (Student student in group.students)
+            foreach (Student student in group.Students)
             {
                 student.StudentGroupNo = group.GroupNo;
             }
@@ -135,9 +136,9 @@ namespace MyProject
                 return;               
             }
             
-            if (group.students.Count>0)
+            if (group.Students.Count>0)
             {
-                 foreach (Student student in group.students)
+                 foreach (Student student in group.Students)
                  {
                         Console.WriteLine(student);
                  }                       
@@ -291,7 +292,7 @@ namespace MyProject
                 Console.WriteLine("Bele bir Grup Nomresi movcud deyil");
                 return;
             }
-            foreach (Student student in group.students)
+            foreach (Student student in group.Students)
             {
                 
                     Console.WriteLine(student);
@@ -303,10 +304,48 @@ namespace MyProject
             int number = 0;
             foreach (Group group in _groups)
             {
-                number += group.students.Count;
+                number += group.Students.Count;
             }
             return number;
         }
+        public bool FindGroupBoolReturn(string no)
+        {
+            bool result = true;
+            foreach (Group group in _groups)
+            {
+                if (group.GroupNo.ToLower().Trim() == no.ToLower().Trim())
+                {
+                    result = false;
 
-    }
+                }
+
+            }
+            return result;
+        }
+        public void CheckCreatedGroupNO(Group group)
+        {
+            if (FindGroupBoolReturn(group.GroupNo) == false)
+            {
+                do
+                {
+                    
+                    switch (group.Type)
+                    {
+
+                        case TypeGroup.Programlashdirma:
+                            group.GroupNo = $"P{Group.Count}";
+                            break;
+                        case TypeGroup.Dizayn:
+                            group.GroupNo = $"D{Group.Count}";
+                            break;
+                        case TypeGroup.Sistem:
+                            group.GroupNo = $"S{Group.Count}";
+                            break;                        
+                    }
+                    Group.Count++;
+                } while (FindGroupBoolReturn(group.GroupNo)==false);
+            }
+        }
+
+}
 }
