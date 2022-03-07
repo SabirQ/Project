@@ -8,7 +8,8 @@ namespace MyProject
     {
         private string _fullName;
         private string _studentGroupNo;
-        private bool _guarrantee;
+        private bool _type;
+        private string _isonline;
     }
     partial class Student                   //Properties 
     {
@@ -34,26 +35,45 @@ namespace MyProject
                  _studentGroupNo= value;
             }
         }
-        public bool Guarrantee
+        public bool Type
         {
             get
             {
-                return _guarrantee;
+                return _type;
             }
             set
             {
-                _guarrantee = value;
+                _type = value;
             }
         }
-
+        public string OnlineOrNot
+        {
+            get
+            {
+                return _isonline;
+            }
+            set
+            {
+                _isonline = value;
+            }
+        }
     }
     partial class Student                   //Constructor
     {
-        public Student(string fullname, string groupno, bool guarrantee)
+        public Student(string fullname, Group group, bool type)
         {
             FullName = fullname;
-            StudentGroupNo = groupno;
-            Guarrantee = guarrantee;
+            StudentGroupNo = group.GroupNo;
+            Type = type;
+            if (group.isOnline)
+            {
+                OnlineOrNot = "Beli";
+            }
+            else
+            {
+                OnlineOrNot = "Xeyr";
+            }
+            
         }
     }
     partial class Student                  //Methods
@@ -61,21 +81,21 @@ namespace MyProject
         public string GuarranteeValue()
         {
             string result = "";
-            if (Guarrantee)
+            if (Type)
             {
-                result = "beli";
+                result = "Beli";
             }
             else
             {
-                result = "xeyr";
+                result = "Xeyr";
             }
             return result;
         }
         public override string ToString()
         {
-            return $"Tam adi:{FullName} Grup:{StudentGroupNo} Zemanetli Tehsil:{GuarranteeValue()}";
+            return $"Tam adi:{FullName} Grup:{StudentGroupNo} Zemanetli Tehsil:{GuarranteeValue()} Online:{OnlineOrNot}";
         }
-
+       
     }
     
 }

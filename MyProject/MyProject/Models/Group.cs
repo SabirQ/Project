@@ -8,7 +8,7 @@ namespace MyProject
     {
         private string _groupNo;
         private static int _count = 100;
-        private TypeGroup _type;
+        private Category _category;
         private List<Student> _students = new List<Student>();
         private bool _isOnline;
         private int _limit;
@@ -37,11 +37,11 @@ namespace MyProject
                 _count = value;
             }
         }
-        public TypeGroup Type
+        public Category Type
         {
             get
             {
-                return _type;
+                return _category;
             }
         }
         public List<Student> Students
@@ -68,18 +68,18 @@ namespace MyProject
     }
     partial class Group                                        //Constructor
     {
-        public Group(TypeGroup type, bool online)
+        public Group(Category category, bool online)
         {
-            switch (type)
+            switch (category)
             {
 
-                case TypeGroup.Programlashdirma:
+                case Category.Programlashdirma:
                     _groupNo = $"P{Count}";
                     break;
-                case TypeGroup.Dizayn:
+                case Category.Dizayn:
                     _groupNo = $"D{Count}";
                     break;
-                case TypeGroup.Sistem:
+                case Category.Sistem:
                     _groupNo = $"S{Count}";
                     break;
                 default:
@@ -87,15 +87,15 @@ namespace MyProject
             }
 
             _isOnline = online;
-            _type = type;
+            _category = category;
             _count++;
             if (isOnline)
             {
-                _limit = 15;
+                _limit = 1;
             }
             else
             {
-                _limit = 10;
+                _limit = 1;
             }
         }
     }
@@ -111,11 +111,11 @@ namespace MyProject
             string result = "";
             if (isOnline)
             {
-                result = "beli";
+                result = "Beli";
             }
             else
             {
-                result = "xeyr";
+                result = "Xeyr";
             }
             return result;
         }

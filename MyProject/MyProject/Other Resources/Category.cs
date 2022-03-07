@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MyProject
 {
-    enum TypeGroup
+    enum Category
     {
         
         Programlashdirma=1,

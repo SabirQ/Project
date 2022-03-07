@@ -4,12 +4,14 @@ using System.Text;
 
 namespace MyProject
 {
-    partial class Operations : IGroupServices                                              //MAIN  operations
+    partial class Operations : IGroupServices                                              
     {
         private List<Group> _groups = new List<Group>();
         public List<Group> Groups => _groups;
-
-        public void AllGroups()                                   //hazir
+    }
+    partial class Operations : IGroupServices                                              //MAIN  operations
+    {
+        public void AllGroups()                                   
         {
             if (_groups.Count==0)
             {
@@ -22,7 +24,7 @@ namespace MyProject
             }
         }
 
-        public void AllStudents()                                 //hazir
+        public void AllStudents()                                  
         {
             
             foreach (Group group in _groups)
@@ -36,24 +38,43 @@ namespace MyProject
             }
         }
 
-        public void CreateGroup()                                //hazir
-        {
-            Group group = new Group(Helper.ChooseType(), Helper.IsOnlineOrNot());
+        public void CreateGroup()                               
+        {            
+            Category category = Helper.ChooseCategory();
+            int intresult = Helper.IsOnlineOrNot();
+            bool result = false;
+            if (intresult==0)
+            {
+                return;
+            }
+            if (intresult==1)
+            {
+                result = true;
+            }
+            Group group = new Group(category, result);
             CheckCreatedGroupNO(group);
             _groups.Add(group);
-            Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");            
+            Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");
         }
 
-        public void CreateStudent()                             //hazir
+        public void CreateStudent()                            
         {
-            Console.WriteLine("Yeni telebenin hansi grup ucun nezerde tutuldugunu qeyd edin ");
+            Console.WriteLine("Yeni telebenin hansi grup ucun nezerde tutuldugunu qeyd edin\n\n0. Esas menu ");
             string no = Console.ReadLine();
+            if (no=="0")
+            {
+                return;
+            }
             if (no.Length==0||no==null)
             {
                 do
                 {
-                    Console.WriteLine("Duzgun deyer teyin edin");
+                    Console.WriteLine("Duzgun deyer teyin edin\n\n0. Esas menu");
                     no = Console.ReadLine();
+                    if (no == "0")
+                    {
+                        return;
+                    }
                 } while (no.Length==0 || no == null);
             }
             Group group = FindGroup(no);
@@ -67,28 +88,65 @@ namespace MyProject
             {
                 do
                 {
-                    Console.WriteLine("Bu grupda bosh yer yoxdur zehmet olmasa Bashqa grup secin");
-                    no = Console.ReadLine();
+                    Console.WriteLine("Bu grupda bosh yer yoxdur zehmet olmasa Bashqa grup secin\n\n0. Esas menu ");
+                    no = Console.ReadLine();                   
+                    if (no==null)
+                    {
+                        do
+                        {
+                            Console.WriteLine("Duzgun deyer teyin edin\n\n0. Esas menu");
+                            no= Console.ReadLine();
+                        } while (no==null);        
+                    }
+                    if (no == "0")
+                    {
+                        return;
+                    }
                     group = FindGroup(no);
+                    if (group == null)
+                    {
+                        Console.WriteLine("Bele bir grup movcud deyil Esas menuya kecid edildi");
+                        return;
+                    }                                        
                 } while (group.Students.Count >= group.Limit); 
             }
-            Student student = new Student(DetermineFullname(),group.GroupNo, Helper.Guarranteed());
+            string fullname = DetermineFullname();
+            bool result = false;
+            int intresult = Helper.ChooseType();
+            if (intresult == 0)
+            {
+                return;
+            }
+            if (intresult == 1)
+            {
+                result = true;
+            }
+            
+            Student student = new Student(fullname,group, result);
             Console.WriteLine(student+"\nTelebe yaradildi");
             group.Students.Add(student);
         }
 
-        public void EditGroup()                             //hazir
+        public void EditGroup()                             
         {
-            Console.WriteLine("Deyishmek istediyiniz grupun nomresini qeyd edin");
+            Console.WriteLine("Deyishmek istediyiniz grupun nomresini qeyd edin\n\n0. Esas menu");
             string no = Console.ReadLine();
+            if (no=="0")
+            {
+                return;
+            }
             Group group = FindGroup(no);
                         
             if (group==null)
             {
                 do
                 {
-                    Console.WriteLine("Bu adda grup movcud deyil yeniden cehd edin");
+                    Console.WriteLine("Bu adda grup movcud deyil yeniden cehd edin\n\n0. Esas menu");
                     no = Console.ReadLine();
+                    if (no == "0")
+                    {
+                        return;
+                    }
                     group = FindGroup(no);
 
                 } while (group==null);
@@ -127,7 +185,7 @@ namespace MyProject
             Console.WriteLine(group.GroupNo);
         }
 
-        public void GroupStudents(string no)                    //hazir
+        public void GroupStudents(string no)                    
         {                                 
             Group group = FindGroup(no);
             if (group == null)
@@ -270,13 +328,13 @@ namespace MyProject
             switch (group.Type)
             {
 
-                case TypeGroup.Programlashdirma:
+                case Category.Programlashdirma:
                     newno = $"P{CheckDigits()}";
                     break;
-                case TypeGroup.Dizayn:
+                case Category.Dizayn:
                     newno = $"D{CheckDigits()}";
                     break;
-                case TypeGroup.Sistem:
+                case Category.Sistem:
                     newno = $"S{CheckDigits()}";
                     break;
                 default:
@@ -284,7 +342,7 @@ namespace MyProject
             }
             return newno;
         }
-        public void CheckStudents(string no)                    //hazir
+        public void CheckStudents(string no)                    
         {
             Group group = FindGroup(no);
             if (group == null)
@@ -332,13 +390,13 @@ namespace MyProject
                     switch (group.Type)
                     {
 
-                        case TypeGroup.Programlashdirma:
+                        case Category.Programlashdirma:
                             group.GroupNo = $"P{Group.Count}";
                             break;
-                        case TypeGroup.Dizayn:
+                        case Category.Dizayn:
                             group.GroupNo = $"D{Group.Count}";
                             break;
-                        case TypeGroup.Sistem:
+                        case Category.Sistem:
                             group.GroupNo = $"S{Group.Count}";
                             break;                        
                     }
