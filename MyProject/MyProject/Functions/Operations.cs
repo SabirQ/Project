@@ -13,12 +13,12 @@ namespace MyProject
     {
         public void AllGroups()                                   
         {
-            if (_groups.Count==0)
+            if (Groups.Count==0)
             {
                 Console.WriteLine("Her-hansi bir grup movcud deyil");
                 return;
             }
-            foreach (Group group in _groups)
+            foreach (Group group in Groups)
             {
                 Console.WriteLine(group);
             }
@@ -27,15 +27,16 @@ namespace MyProject
         public void AllStudents()                                  
         {
             
-            foreach (Group group in _groups)
+            foreach (Group group in Groups)
             {
                 CheckStudents(group.GroupNo);
                 
             }
-            if (CheckNumbersOfStudents()<= 0)
+            if (CheckNumbersOfStudents()<= 0) 
             {
                 Console.WriteLine("Hal-hazirda Academiyada telebe yoxdur");
             }
+           
         }
 
         public void CreateGroup()                               
@@ -53,7 +54,7 @@ namespace MyProject
             }
             Group group = new Group(category, result);
             CheckCreatedGroupNO(group);
-            _groups.Add(group);
+            Groups.Add(group);
             Console.WriteLine(group.GroupNo + $"-adli grup yaradildi");
         }
 
@@ -131,6 +132,7 @@ namespace MyProject
         {
             Console.WriteLine("Deyishmek istediyiniz grupun nomresini qeyd edin\n\n0. Esas menu");
             string no = Console.ReadLine();
+            no = no.Trim();
             if (no=="0")
             {
                 return;
@@ -155,7 +157,7 @@ namespace MyProject
             Console.WriteLine("Grup Nomresinin bash herifi novune uygun teyin edilmishdir\nYeni grup nomresinin 3 reqemli ededini daxil edin");
             string newno = CheckNewGroupName(group);
  
-            foreach (Group item in _groups)
+            foreach (Group item in Groups)
             {
                 if (item.GroupNo.ToLower().Trim() == newno.ToLower().Trim())
                 {
@@ -168,7 +170,7 @@ namespace MyProject
                 {
                     Console.WriteLine("Bu nomreli grup artiq movcuddur bashqa nomre daxil edin");
                     newno = CheckNewGroupName(group);
-                    foreach (Group item in _groups)
+                    foreach (Group item in Groups)
                     {
                         if (item.GroupNo.ToLower().Trim() == newno.ToLower().Trim())
                         {
@@ -212,8 +214,8 @@ namespace MyProject
     partial class Operations:IGroupServices                                                //ADDITIONAL operations
     {
         public Group FindGroup(string no)
-        {
-            foreach (Group group in _groups)
+        {            
+            foreach (Group group in Groups)
             {
                 if (group.GroupNo.ToLower().Trim() == no.ToLower().Trim())
                 {
@@ -303,12 +305,12 @@ namespace MyProject
                 }
             }
             return result;
-        }
-       
-        public int CheckDigits()
+        }       
+        public int CheckDigits ()
         {
             int num;
             string numStr = Console.ReadLine();
+            numStr=numStr.Trim();
             bool result = int.TryParse(numStr, out num);
             if (!result||numStr.Length!=3)
             {
@@ -316,6 +318,7 @@ namespace MyProject
                 {
                     Console.WriteLine("Grup Nomresinin bash herfi novune uygun teyin edilmishdir.\n3 reqemli eded daxil edin");
                     numStr = Console.ReadLine();
+                    numStr = numStr.Trim();
                     result = int.TryParse(numStr, out num);
                 } while (!result || numStr.Length != 3);
                 
@@ -360,7 +363,7 @@ namespace MyProject
         public int CheckNumbersOfStudents()
         {
             int number = 0;
-            foreach (Group group in _groups)
+            foreach (Group group in Groups)
             {
                 number += group.Students.Count;
             }
@@ -369,7 +372,7 @@ namespace MyProject
         public bool FindGroupBoolReturn(string no)
         {
             bool result = true;
-            foreach (Group group in _groups)
+            foreach (Group group in Groups)
             {
                 if (group.GroupNo.ToLower().Trim() == no.ToLower().Trim())
                 {

@@ -6,17 +6,17 @@ namespace MyProject
     {
         static void Main(string[] args)
         {
-
-
             Operations operations = new Operations();
             Console.WriteLine("Console Application\n");
             int selection;
+            bool result = false;
+
             do
             {
                 Console.WriteLine($"1. Yeni qrup yarat\n2. Qruplarin siyahisini goster\n3. Qrup uzerinde duzelish etmek\n4. Qrupdaki telebelerin siyahisini goster\n5. Butun telebelerin siyahisini goster\n6. Telebe yarat");
                 Console.WriteLine("\n\n0. Cixish");
                 string strSelection = Console.ReadLine();
-                bool result = int.TryParse(strSelection, out selection);
+                result = int.TryParse(strSelection, out selection);
                 if (result)
                 {
                     switch (selection)
@@ -45,7 +45,7 @@ namespace MyProject
                     }
                 }
 
-            } while (selection!=0);
+            } while (!result||selection!=0);
             
         }
     }
