@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MyProject
 {
-    partial class Operations : IGroupServices                                              
+    partial class Operations : IGroupServices                                              //FIELD and PROPERTY
     {
         private List<Group> _groups = new List<Group>();
         public List<Group> Groups => _groups;
@@ -61,8 +61,8 @@ namespace MyProject
         public void CreateStudent()                            
         {
             Console.WriteLine("Yeni telebenin hansi grup ucun nezerde tutuldugunu qeyd edin\n\n0. Esas menu ");
-            string no = Console.ReadLine();
-            if (no=="0")
+            string no = Console.ReadLine().Trim();
+            if (no == "0")
             {
                 return;
             }
@@ -71,7 +71,7 @@ namespace MyProject
                 do
                 {
                     Console.WriteLine("Duzgun deyer teyin edin\n\n0. Esas menu");
-                    no = Console.ReadLine();
+                    no = Console.ReadLine().Trim();
                     if (no == "0")
                     {
                         return;
@@ -81,7 +81,7 @@ namespace MyProject
             Group group = FindGroup(no);
             if (group == null)
             {
-                Console.WriteLine("bele bir grup movcud deyil Esas menuya kecid edildi");
+                Console.WriteLine("Bele bir grup movcud deyil Esas menuya kecid edildi");
                 return;
             }
             

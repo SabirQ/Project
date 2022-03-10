@@ -37,10 +37,7 @@ namespace MyProject
                             operations.AllStudents();
                             break;
                         case 6:
-                            
                             operations.CreateStudent();
-                            break;
-                        default:
                             break;
                     }
                 }
