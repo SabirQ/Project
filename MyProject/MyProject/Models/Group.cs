@@ -91,11 +91,11 @@ namespace MyProject
             _count++;
             if (isOnline)
             {
-                _limit = 1;
+                _limit = 15;
             }
             else
             {
-                _limit = 1;
+                _limit = 10;
             }
         }
     }
